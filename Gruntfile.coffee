@@ -41,7 +41,7 @@ module.exports = (grunt) ->
     watch:
       scripts:
         files: ['**/*.js']
-        tasks: ['jshint']
+        tasks: ['copy', 'uglify:dev']
         options:
           spawn: false
     
