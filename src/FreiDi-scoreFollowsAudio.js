@@ -38,12 +38,16 @@ function appendAudio() {
 /*
  * used functions
  */
+ 
+ /*
+  * algorithmus für ordinal skalierte arrays verweden, z.B. divide and conquer
+  */
 
 /**
  * get image URI, measure number, measure ID from JSON based on input time
  * @param      {Number}   time from audio player
  * @var        {Number}   bestDiff
- */
+ */ 
 function getMeasure(time){
   var bestDiff = 0;
   var minDiff;
@@ -59,25 +63,54 @@ function getMeasure(time){
       bestIndex = i; 
     }
   }
-  var imageUri = json.measures[0].page;
+ 
+  if(bestIndex >= 0){
+    return json.measures[bestIndex];
+  }
+  
+  return null;
+};
+
+function getMeasure4facsimile(){
+  //TODO
+  
+    //call function to check current image against the one associated with best match
+  checkImage(imageUri);
+  
+   var imageUri = json.measures[0].page;
   var measureID;
   var measureCount;
-  if(bestIndex >= 0){
-    imageUri = json.measures[bestIndex].page;
-    measureID = json.measures[bestIndex].measureID;
-    measureCount = bestIndex + 1;//+1 um die tatsächliche Taktzahl zu errechnen
-  };
   
-  //call function to check current image against the one associated with best match
-  checkImage(imageUri);
-  //set facsimile text field to new value
-  $('#facsimileID').text(imageUri);
+  imageUri = json.measures[bestIndex].page;
+    measureID = json.measures[bestIndex].measureID;
+};
+
+
+/* launch measure update for rendering associated scoreFolowsAudio
+ * @param
+ */
+function getMeasure4rendering(time){
+  
+  var measure = getMeasure(time);
+  
+  if(measure == null) return null;
+  
+  var measureID = measure.measureID;
+  var measureCount = measure.measure;
+  
+  updateUI(measureCount,measureID);
+  
+  return measureID;
+};
+
+function updateUI(measureCount,measureID, imageUri){
+    //set facsimile text field to new value
+  $('#facsimileID').text((imageUri !== 'undefind'?imageUri:''));
   //set measure count to new value
   $("#measureCount").text(measureCount);
   //set measure ID to new value
   $("#measureID").text(measureID);
-  
-  return measureID;
+
 };
 
  /**

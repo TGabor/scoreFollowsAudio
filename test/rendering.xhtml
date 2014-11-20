@@ -159,8 +159,10 @@
         $("#track").bind('timeupdate', function() {
           var timeupdate = this.currentTime; 
           $("#currentTime").text(timeupdate);
-          measure = getMeasure(timeupdate);
-          if ( (measure != undefined)  && (measure != currentMeasure) )  {
+         // var timeDiff = (new Date()).getTime();
+          measure = getMeasure4rendering(timeupdate);
+          //console.log((new Date()).getTime() - timeDiff);
+          if ( (measure != null)  && (measure != currentMeasure) )  {
               d3.selectAll(".highlight").remove();
               currentMeasure = measure;
               page = vrvToolkit.getPageWithElement( currentMeasure );
